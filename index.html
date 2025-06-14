@@ -89,63 +89,17 @@
 </div>
 
 <script>
-    const documentos = [
-        {
-            nombre: "01 - Ley del Personal Policial.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1GKy-2GtlU1yCzEVCavqIBV-Kxjc_IoLp&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1GKy-2GtlU1yCzEVCavqIBV-Kxjc_IoLp/view"
-        },
-        {
-            nombre: "02 - Ley Orgánica Policial.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1wR7NlQXJv8Y6gZqMfBkPbKtWZ9rOcVjS&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1wR7NlQXJv8Y6gZqMfBkPbKtWZ9rOcVjS/view"
-        },
-        {
-            nombre: "03 - Reglamento del Régimen Disciplinario Policial.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1n5Ih4iGZyDZT8mHhjv5JvXh4eJzKXj3M&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1n5Ih4iGZyDZT8mHhjv5JvXh4eJzKXj3M/view"
-        },
-        {
-            nombre: "04 - Ley del Régimen de Retiros y Pensiones Policiales.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        },
-        {
-            nombre: "05 - Reglamento Orgánico de las Unidades Regionales.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1qBkDj4KZbJZ6hXVZzV9hQZ1zQZqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1qBkDj4KZbJZ6hXVZzV9hQZ1zQZqX6rR4/view"
-        },
-        {
-            nombre: "06 - Reglamento Interno de la Dirección Asuntos Internos.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1oKZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1oKZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0/view"
-        },
-        {
-            nombre: "07 - Reglamento del Régimen de Promociones Policiales.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1zQZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1zQZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        },
-        {
-            nombre: "08 - Reglamento del Régimen de Licencias y Permisos Policiales.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1ZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1ZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        },
-        {
-            nombre: "09 - Reglamento del Régimen de Calificaciones Policiales.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1qX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1qX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        },
-        {
-            nombre: "10 - Reglamento del Régimen de Cambios de Destino.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1X6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/1X6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        },
-        {
-            nombre: "11 - Reglamento de Cuerpos y Escalafones.docx",
-            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D16rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
-            urlOpen: "https://drive.google.com/file/d/16rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
-        }
-    ];
+    let documentos = [];
+
+    // 🔁 Reemplaza esta URL con la que copiaste antes
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwwaVds9bZvOx9LKla34_mNS7wQoCXeGx2MIFhAZfqQm-LIpqPMB2N0RjYxT5v0YBrc/exec'; 
+
+    fetch(SHEET_URL)
+        .then(response => response.json())
+        .then(data => {
+            documentos = data;
+            mostrarResultados(documentos);
+        });
 
     function buscar() {
         const texto = document.getElementById("searchInput").value.toLowerCase();
