@@ -2,46 +2,150 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscador de Documentos</title>
+    <title>Buscador de Documentos - Google Drive</title>
     <style>
-        body { font-family: Arial; padding: 20px; }
+        body {
+            font-family: Arial;
+            padding: 20px;
+            margin: 0;
+        }
+        header {
+            background-color: #0073e6;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+        }
+        .left-panel {
+            width: 300px;
+            border-right: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .right-panel {
+            flex: 1;
+            overflow: hidden;
+        }
         input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
-        ul { list-style: none; padding: 0; }
-        li {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
+        ul.doc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        ul.doc-list li {
+            padding: 8px;
             cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        ul.doc-list li:hover {
+            background-color: #f0f0f0;
         }
         iframe {
             width: 100%;
-            height: 600px;
-            border: 1px solid #ccc;
-            margin-top: 20px;
+            height: 100%;
+            border: none;
+        }
+        button#abrirBtn {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button#abrirBtn:hover {
+            background-color: #005bb5;
         }
     </style>
 </head>
 <body>
 
-<h2>🔍 Buscador de Documentos - Google Drive</h2>
-<input type="text" id="searchInput" placeholder="Buscar documento..." oninput="buscar()">
-<ul id="results"></ul>
+<header>🔍 Buscador de Documentos - Google Drive</header>
 
-<iframe id="viewer" src=""></iframe>
+<div class="container">
+    <!-- Panel izquierdo -->
+    <div class="left-panel">
+        <input type="text" id="searchInput" placeholder="Buscar documento..." oninput="buscar()">
+        <ul id="results" class="doc-list"></ul>
+    </div>
+
+    <!-- Panel derecho -->
+    <div class="right-panel">
+        <iframe id="viewer" src=""></iframe>
+        <button id="abrirBtn" onclick="abrirDocumento()" style="display:none;">Abrir en Google Docs</button>
+    </div>
+</div>
 
 <script>
-    let documentos = [];
-
-    // Cargar documentos desde Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbwf_Kr26jPqPBd7zrwdKaviO0p-091RX0rW4rzTpZd38UvaOH04zmGyJsynNcB8ZQDH2g/exec') 
-        .then(response => response.json())
-        .then(data => {
-            documentos = data;
-            mostrarResultados(documentos);
-        });
+    const documentos = [
+        {
+            nombre: "01 - Ley del Personal Policial.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1GKy-2GtlU1yCzEVCavqIBV-Kxjc_IoLp&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1GKy-2GtlU1yCzEVCavqIBV-Kxjc_IoLp/view"
+        },
+        {
+            nombre: "02 - Ley Orgánica Policial.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1wR7NlQXJv8Y6gZqMfBkPbKtWZ9rOcVjS&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1wR7NlQXJv8Y6gZqMfBkPbKtWZ9rOcVjS/view"
+        },
+        {
+            nombre: "03 - Reglamento del Régimen Disciplinario Policial.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1n5Ih4iGZyDZT8mHhjv5JvXh4eJzKXj3M&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1n5Ih4iGZyDZT8mHhjv5JvXh4eJzKXj3M/view"
+        },
+        {
+            nombre: "04 - Ley del Régimen de Retiros y Pensiones Policiales.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        },
+        {
+            nombre: "05 - Reglamento Orgánico de las Unidades Regionales.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1qBkDj4KZbJZ6hXVZzV9hQZ1zQZqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1qBkDj4KZbJZ6hXVZzV9hQZ1zQZqX6rR4/view"
+        },
+        {
+            nombre: "06 - Reglamento Interno de la Dirección Asuntos Internos.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1oKZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1oKZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0/view"
+        },
+        {
+            nombre: "07 - Reglamento del Régimen de Promociones Policiales.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1zQZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1zQZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        },
+        {
+            nombre: "08 - Reglamento del Régimen de Licencias y Permisos Policiales.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1ZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1ZqX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        },
+        {
+            nombre: "09 - Reglamento del Régimen de Calificaciones Policiales.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1qX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1qX6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        },
+        {
+            nombre: "10 - Reglamento del Régimen de Cambios de Destino.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D1X6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/1X6rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        },
+        {
+            nombre: "11 - Reglamento de Cuerpos y Escalafones.docx",
+            urlPreview: "https://docs.google.com/gview?url=https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Ddownload%26id%3D16rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4&embedded=true",
+            urlOpen: "https://drive.google.com/file/d/16rR4GJvVZ1wZV5yQ6hLbZz0B7o0jUJqX6rR4/view"
+        }
+    ];
 
     function buscar() {
         const texto = document.getElementById("searchInput").value.toLowerCase();
@@ -57,11 +161,16 @@
             li.textContent = doc.nombre;
             li.onclick = () => {
                 document.getElementById("viewer").src = doc.urlPreview;
+                document.getElementById("abrirBtn").style.display = "block";
+                document.getElementById("abrirBtn").onclick = () => window.open(doc.urlOpen, '_blank');
             };
             contenedor.appendChild(li);
         });
     }
-</script>
 
+    window.onload = () => {
+        mostrarResultados(documentos);
+    };
+</script>
 </body>
 </html>
